@@ -41,10 +41,15 @@ class _LocatingPageState extends State<LocatingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        color: Colors.white,
-        child: Text('longitude: $longitude latitude:$latitude'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Sanjiv Push'),
+      ),
+      body: Center(
+        child: Container(
+          color: Colors.white,
+          child: Text('longitude: $longitude latitude:$latitude'),
+        ),
       ),
     );
   }
