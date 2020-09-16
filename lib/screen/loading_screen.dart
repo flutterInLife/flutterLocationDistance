@@ -14,7 +14,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     // TODO: implement initState
     super.initState();
     getLocationPermission();
-    getLocation();
+
   }
 
   getLocationPermission() async {
@@ -29,10 +29,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
     );
   }
 
-  void getLocation()async{
-    Position position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
-    print(position);
-  }
 
 
 
