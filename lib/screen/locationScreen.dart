@@ -2,6 +2,8 @@ import 'package:LocationSuggestor/location.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
+//Hello Branch
+
 class LocatingPage extends StatefulWidget {
   @override
   _LocatingPageState createState() => _LocatingPageState();
