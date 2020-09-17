@@ -83,7 +83,6 @@ class _LocatingPageState extends State<LocatingPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getCurrentLocation();
     getLocations();
   }
 
