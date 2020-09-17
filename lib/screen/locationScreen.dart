@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -8,21 +11,85 @@ class LocatingPage extends StatefulWidget {
 }
 
 class _LocatingPageState extends State<LocatingPage> {
+  Completer<GoogleMapController> _controller = Completer();
 
-  GoogleMapController mapController;
+  final Set<Marker> _markers = {};
 
-  getCurrentLocation() async {
-    Position position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-      target: LatLng(position.latitude, position.longitude),
-      zoom: 17,
-    ),));
+  Future getCurrentLocation() async {
+    final GoogleMapController mapController = await _controller.future;
+    Position position =
+        await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    mapController.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(
+        target: LatLng(position.latitude, position.longitude),
+        zoom: 11,
+      ),
+    ));
   }
 
-  _onMapCreated(GoogleMapController controller) {
+  Future getLocations() async {
+    final GoogleMapController mapController = await _controller.future;
+    Position position =
+        await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    mapController.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(
+        target: LatLng(position.latitude, position.longitude),
+        zoom: 11,
+      ),
+    ));
     setState(() {
-      mapController = controller;
+      _markers.add(Marker(
+          markerId: MarkerId('Your Location'),
+          position: LatLng(position.latitude, position.longitude),
+          icon: BitmapDescriptor.defaultMarkerWithHue(100),
+          infoWindow: InfoWindow(
+            title: 'Your Location',
+          ),
+          onTap: () {
+            mapController
+                .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+              target: LatLng(position.latitude, position.longitude),
+              zoom: 13,
+            )));
+          }),);
+      _markers.addAll({
+        Marker(
+            markerId: MarkerId('Bhaktapur'),
+            position: LatLng(27.671022, 85.429817),
+            icon: BitmapDescriptor.defaultMarker,
+            infoWindow: InfoWindow(
+              title: 'Bhaktapur',
+            ),
+            onTap: () {
+              mapController
+                  .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+                target: LatLng(27.671022, 85.429817),
+                zoom: 13,
+              )));
+            }),
+        Marker(
+            markerId: MarkerId('Lalitpur'),
+            position: LatLng(27.6588, 85.3247),
+            icon: BitmapDescriptor.defaultMarker,
+            infoWindow: InfoWindow(
+              title: 'Lalitpur',
+            ),
+            onTap: () {
+              mapController
+                  .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+                target: LatLng(27.6588, 85.3247),
+                zoom: 13,
+              )));
+            }),
+      });
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getLocations();
   }
 
   @override
@@ -31,22 +98,26 @@ class _LocatingPageState extends State<LocatingPage> {
       appBar: AppBar(
         title: Text('Geo Location'),
         elevation: 0,
+        centerTitle: true,
       ),
       body: Stack(
         children: [
           GoogleMap(
             mapType: MapType.normal,
             initialCameraPosition: CameraPosition(
-              target: LatLng(37.42796133580664, -122.085749655962),
-              zoom: 14.4746,
+              target: LatLng(28.3949, 84.1240),
+              zoom: 6,
             ),
-            onMapCreated: _onMapCreated,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
             zoomControlsEnabled: false,
+            markers: _markers,
           ),
           Align(
-            alignment: Alignment.bottomRight,
+            alignment: Alignment.topRight,
             child: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(20),
               child: FloatingActionButton(
                 elevation: 0,
                 child: Icon(Icons.location_on),
