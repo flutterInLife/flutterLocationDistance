@@ -68,6 +68,7 @@ class _LocatingPageState extends State<LocatingPage> {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               color: Colors.lightGreen,
