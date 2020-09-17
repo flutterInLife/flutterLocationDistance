@@ -10,8 +10,8 @@ class LocatingPage extends StatefulWidget {
 }
 
 class _LocatingPageState extends State<LocatingPage> {
-  double latitude;
-  double longitude;
+  double latitudes;
+  double longitudes;
   double distanceInMeter;
 
   Future<void> getCurrentLocation() async {
@@ -19,10 +19,10 @@ class _LocatingPageState extends State<LocatingPage> {
       Position position =
           await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-      latitude = position.latitude;
-      longitude = position.longitude;
+      latitudes = position.latitude;
+      longitudes = position.longitude;
 
-      print(latitude);
+      print(position);
     } catch (e) {
       print(e);
     }
@@ -34,18 +34,19 @@ class _LocatingPageState extends State<LocatingPage> {
     // endLatitude	double	Latitude of the destination position
     // endLongitude	double	Longitude of the destination position
     try{
-      double distanceInMeters = distanceBetween(144.34, 432.324, 52.3546274, 4.8285838);
+      double distanceInMeters = distanceBetween(latitudes, longitudes, 52.3546274, 4.8285838);
       print('distance $distanceInMeters');
       if(distanceInMeters!=null){
         setState(() {
           distanceInMeter = distanceInMeters;
         });
-        return Container(color: Colors.amber,
-          child: Text('distace: $distanceInMeters'),);
+
       }
     }catch(e){
       print(e);
     }
+    return Container(color: Colors.amber,
+      child: Text('distace: $distanceInMeter'),);
   }
 
 
@@ -70,7 +71,7 @@ class _LocatingPageState extends State<LocatingPage> {
           children: [
             Container(
               color: Colors.lightGreen,
-              child: Text('longitude: $longitude latitude:$latitude'),
+              child: Text('longitude: $longitudes latitude:$latitudes'),
             ),
             measureDistance(),
           ],
