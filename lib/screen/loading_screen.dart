@@ -18,9 +18,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   getLocationPermission() async {
-    // bool isLocationServiceEnabled = await isLocationServiceEnabled();
     LocationPermission permission = await requestPermission();
-    print(permission);
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

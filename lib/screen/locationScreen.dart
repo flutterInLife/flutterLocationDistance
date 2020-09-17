@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -18,19 +17,7 @@ class _LocatingPageState extends State<LocatingPage> {
   Future getCurrentLocation() async {
     final GoogleMapController mapController = await _controller.future;
     Position position =
-        await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    mapController.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(
-        target: LatLng(position.latitude, position.longitude),
-        zoom: 11,
-      ),
-    ));
-  }
-
-  Future getLocations() async {
-    final GoogleMapController mapController = await _controller.future;
-    Position position =
-        await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     mapController.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
         target: LatLng(position.latitude, position.longitude),
@@ -52,6 +39,13 @@ class _LocatingPageState extends State<LocatingPage> {
               zoom: 13,
             )));
           }),);
+    });
+  }
+
+  Future getLocations() async {
+    await getCurrentLocation();
+    final GoogleMapController mapController = await _controller.future;
+    setState(() {
       _markers.addAll({
         Marker(
             markerId: MarkerId('Bhaktapur'),
@@ -89,6 +83,7 @@ class _LocatingPageState extends State<LocatingPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getCurrentLocation();
     getLocations();
   }
 
