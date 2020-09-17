@@ -21,16 +21,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
     // bool isLocationServiceEnabled = await isLocationServiceEnabled();
     LocationPermission permission = await requestPermission();
     print(permission);
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => LocatingPage(),
       ),
     );
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {

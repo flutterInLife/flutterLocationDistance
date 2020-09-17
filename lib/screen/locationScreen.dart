@@ -1,8 +1,6 @@
-import 'package:LocationSuggestor/location.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-
-//Hello Branch
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class LocatingPage extends StatefulWidget {
   @override
@@ -10,48 +8,53 @@ class LocatingPage extends StatefulWidget {
 }
 
 class _LocatingPageState extends State<LocatingPage> {
-  double latitude;
-  double longitude;
 
-  Future<void> getCurrentLocation() async {
-    try {
-      Position position =
-          await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  GoogleMapController mapController;
 
-      latitude = position.latitude;
-      longitude = position.longitude;
-
-      print(latitude);
-    } catch (e) {
-      print(e);
-    }
+  getCurrentLocation() async {
+    Position position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(position.latitude, position.longitude),
+      zoom: 17,
+    ),));
   }
 
-  methodnone() async {
-    Location location = Location();
-    await location.getCurrentLocation();
-    print(location);
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // methodnone();
-    getCurrentLocation();
+  _onMapCreated(GoogleMapController controller) {
+    setState(() {
+      mapController = controller;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sanjiv Push'),
+        title: Text('Geo Location'),
+        elevation: 0,
       ),
-      body: Center(
-        child: Container(
-          color: Colors.white,
-          child: Text('longitude: $longitude latitude:$latitude'),
-        ),
+      body: Stack(
+        children: [
+          GoogleMap(
+            mapType: MapType.normal,
+            initialCameraPosition: CameraPosition(
+              target: LatLng(37.42796133580664, -122.085749655962),
+              zoom: 14.4746,
+            ),
+            onMapCreated: _onMapCreated,
+            zoomControlsEnabled: false,
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: FloatingActionButton(
+                elevation: 0,
+                child: Icon(Icons.location_on),
+                onPressed: getCurrentLocation,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
