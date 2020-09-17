@@ -44,6 +44,10 @@ class _LocatingPageState extends State<LocatingPage> {
     }
   }
 
+  void sortingDistance() {
+    null;
+  }
+
   Container measureDistance() {
     // startLatitude	double	Latitude of the start position
     // startLongitude	double	Longitude of the start position
@@ -138,7 +142,9 @@ class _LocatingPageState extends State<LocatingPage> {
                 alignment: Alignment.bottomLeft,
                 child: FloatingActionButton.extended(
                   heroTag: 'one',
-                  onPressed: null,
+                  onPressed: () {
+                    sortingDistance();
+                  },
                   label: Text('search nearest'),
                   icon: Icon(Icons.search),
                 ),
