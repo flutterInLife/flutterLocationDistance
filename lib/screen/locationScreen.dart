@@ -1,8 +1,8 @@
-import 'dart:async';
-
+import 'package:LocationSuggestor/location.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+//Hello Branch
 
 class LocatingPage extends StatefulWidget {
   @override
@@ -10,116 +10,72 @@ class LocatingPage extends StatefulWidget {
 }
 
 class _LocatingPageState extends State<LocatingPage> {
-  Completer<GoogleMapController> _controller = Completer();
+  double latitude;
+  double longitude;
+  double distanceInMeter;
 
-  final Set<Marker> _markers = {};
+  Future<void> getCurrentLocation() async {
+    try {
+      Position position =
+          await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-  Future getCurrentLocation() async {
-    final GoogleMapController mapController = await _controller.future;
-    Position position =
-    await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    mapController.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(
-        target: LatLng(position.latitude, position.longitude),
-        zoom: 11,
-      ),
-    ));
-    setState(() {
-      _markers.add(Marker(
-          markerId: MarkerId('Your Location'),
-          position: LatLng(position.latitude, position.longitude),
-          icon: BitmapDescriptor.defaultMarkerWithHue(100),
-          infoWindow: InfoWindow(
-            title: 'Your Location',
-          ),
-          onTap: () {
-            mapController
-                .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-              target: LatLng(position.latitude, position.longitude),
-              zoom: 13,
-            )));
-          }),);
-    });
+      latitude = position.latitude;
+      longitude = position.longitude;
+
+      print(latitude);
+    } catch (e) {
+      print(e);
+    }
   }
 
-  Future getLocations() async {
-    await getCurrentLocation();
-    final GoogleMapController mapController = await _controller.future;
-    setState(() {
-      _markers.addAll({
-        Marker(
-            markerId: MarkerId('Bhaktapur'),
-            position: LatLng(27.671022, 85.429817),
-            icon: BitmapDescriptor.defaultMarker,
-            infoWindow: InfoWindow(
-              title: 'Bhaktapur',
-            ),
-            onTap: () {
-              mapController
-                  .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-                target: LatLng(27.671022, 85.429817),
-                zoom: 13,
-              )));
-            }),
-        Marker(
-            markerId: MarkerId('Lalitpur'),
-            position: LatLng(27.6588, 85.3247),
-            icon: BitmapDescriptor.defaultMarker,
-            infoWindow: InfoWindow(
-              title: 'Lalitpur',
-            ),
-            onTap: () {
-              mapController
-                  .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-                target: LatLng(27.6588, 85.3247),
-                zoom: 13,
-              )));
-            }),
-      });
-    });
+  Future<void> measureDistance() async{
+    // startLatitude	double	Latitude of the start position
+    // startLongitude	double	Longitude of the start position
+    // endLatitude	double	Latitude of the destination position
+    // endLongitude	double	Longitude of the destination position
+    try{
+      double distanceInMeters = distanceBetween(latitude, longitude, 52.3546274, 4.8285838);
+      print('distance $distanceInMeters');
+      if(distanceInMeters!=null){
+        setState(() {
+          distanceInMeter = distanceInMeters;
+        });
+        return Container(child: Text('$distanceInMeters'),);
+
+      }
+    }catch(e){
+      print(e);
+    }
   }
+
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getLocations();
+    // methodnone();
+    getCurrentLocation();
+    measureDistance();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Geo Location'),
-        elevation: 0,
-        centerTitle: true,
+        title: Text('Distance between two location'),
       ),
-      body: Stack(
-        children: [
-          GoogleMap(
-            mapType: MapType.normal,
-            initialCameraPosition: CameraPosition(
-              target: LatLng(28.3949, 84.1240),
-              zoom: 6,
+      body: Center(
+        child: Column(
+          children: [
+            Container(
+              color: Colors.lightGreen,
+              child: Text('longitude: $longitude latitude:$latitude'),
             ),
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-            zoomControlsEnabled: false,
-            markers: _markers,
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: FloatingActionButton(
-                elevation: 0,
-                child: Icon(Icons.location_on),
-                onPressed: getCurrentLocation,
-              ),
-            ),
-          )
-        ],
+            Container(color: Colors.amber,
+            child: Text('distace: $distanceInMeter'),),
+          ],
+        ),
       ),
     );
   }
