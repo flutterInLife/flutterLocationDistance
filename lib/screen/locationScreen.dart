@@ -28,20 +28,20 @@ class _LocatingPageState extends State<LocatingPage> {
     }
   }
 
-  Future<void> measureDistance() async{
+  Container measureDistance() {
     // startLatitude	double	Latitude of the start position
     // startLongitude	double	Longitude of the start position
     // endLatitude	double	Latitude of the destination position
     // endLongitude	double	Longitude of the destination position
     try{
-      double distanceInMeters = distanceBetween(latitude, longitude, 52.3546274, 4.8285838);
+      double distanceInMeters = distanceBetween(144.34, 432.324, 52.3546274, 4.8285838);
       print('distance $distanceInMeters');
       if(distanceInMeters!=null){
         setState(() {
           distanceInMeter = distanceInMeters;
         });
-        return Container(child: Text('$distanceInMeters'),);
-
+        return Container(color: Colors.amber,
+          child: Text('distace: $distanceInMeters'),);
       }
     }catch(e){
       print(e);
@@ -72,11 +72,12 @@ class _LocatingPageState extends State<LocatingPage> {
               color: Colors.lightGreen,
               child: Text('longitude: $longitude latitude:$latitude'),
             ),
-            Container(color: Colors.amber,
-            child: Text('distace: $distanceInMeter'),),
+            measureDistance(),
           ],
         ),
       ),
     );
   }
+
+
 }
