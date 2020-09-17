@@ -12,6 +12,7 @@ class LocatingPage extends StatefulWidget {
 class _LocatingPageState extends State<LocatingPage> {
   double latitude;
   double longitude;
+  double distanceInMeter;
 
   Future<void> getCurrentLocation() async {
     try {
@@ -27,11 +28,27 @@ class _LocatingPageState extends State<LocatingPage> {
     }
   }
 
-  methodnone() async {
-    Location location = Location();
-    await location.getCurrentLocation();
-    print(location);
+  Future<void> measureDistance() async{
+    // startLatitude	double	Latitude of the start position
+    // startLongitude	double	Longitude of the start position
+    // endLatitude	double	Latitude of the destination position
+    // endLongitude	double	Longitude of the destination position
+    try{
+      double distanceInMeters = distanceBetween(latitude, longitude, 52.3546274, 4.8285838);
+      print('distance $distanceInMeters');
+      if(distanceInMeters!=null){
+        setState(() {
+          distanceInMeter = distanceInMeters;
+        });
+        return Container(child: Text('$distanceInMeters'),);
+
+      }
+    }catch(e){
+      print(e);
+    }
   }
+
+
 
   @override
   void initState() {
@@ -39,18 +56,25 @@ class _LocatingPageState extends State<LocatingPage> {
     super.initState();
     // methodnone();
     getCurrentLocation();
+    measureDistance();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sanjiv Push'),
+        title: Text('Distance between two location'),
       ),
       body: Center(
-        child: Container(
-          color: Colors.white,
-          child: Text('longitude: $longitude latitude:$latitude'),
+        child: Column(
+          children: [
+            Container(
+              color: Colors.lightGreen,
+              child: Text('longitude: $longitude latitude:$latitude'),
+            ),
+            Container(color: Colors.amber,
+            child: Text('distace: $distanceInMeter'),),
+          ],
         ),
       ),
     );
