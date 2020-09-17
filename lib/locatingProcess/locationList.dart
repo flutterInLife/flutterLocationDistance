@@ -1,32 +1,29 @@
 import 'locationFormat.dart';
 
-class LocationList{
-
+class LocationList {
   int _nextLocation = 0;
 
   List<LocationFormat> _locationList = [
-
+    LocationFormat(987.243, 789.24424),
+    LocationFormat(123.243, 321.24424),
+    LocationFormat(090.243, 010.24424),
     LocationFormat(342.243, 434.24424),
     LocationFormat(342.243, 434.24424),
     LocationFormat(342.243, 434.24424),
     LocationFormat(342.243, 434.24424),
     LocationFormat(342.243, 434.24424),
-    LocationFormat(342.243, 434.24424),
-    LocationFormat(342.243, 434.24424),
-    LocationFormat(342.243, 434.24424),
-
   ];
-  void nextLocation(){
-    if(_nextLocation<_locationList.length -1) {
+  void nextLocation() {
+    if (_nextLocation < _locationList.length - 1) {
       _nextLocation++;
     }
   }
 
-  double getNextLatitude(){
+  double getNextLatitude() {
     return _locationList[_nextLocation].endLatitude;
   }
 
-  double getNextLongitude(){
+  double getNextLongitude() {
     return _locationList[_nextLocation].endLongitude;
   }
 }

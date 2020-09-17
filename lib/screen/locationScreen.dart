@@ -1,8 +1,11 @@
 // import 'package:LocationSuggestor/location.dart';
+import 'package:LocationSuggestor/locatingProcess/locationList.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 //Hello Branch
+
+LocationList loc = LocationList();
 
 class LocatingPage extends StatefulWidget {
   @override
@@ -28,6 +31,19 @@ class _LocatingPageState extends State<LocatingPage> {
     }
   }
 
+  void updateEndLocation() {
+    try {
+      setState(() {
+        endLatitude = loc.getNextLatitude();
+        endLongitude = loc.getNextLongitude();
+        print('endLatitude $endLatitude and endLongitude $endLongitude');
+        loc.nextLocation();
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Container measureDistance() {
     // startLatitude	double	Latitude of the start position
     // startLongitude	double	Longitude of the start position
@@ -35,7 +51,7 @@ class _LocatingPageState extends State<LocatingPage> {
     // endLongitude	double	Longitude of the destination position
     try {
       double distanceInMeters =
-          distanceBetween(latitudes, longitudes, 52.3546274, 4.8285838);
+          distanceBetween(latitudes, longitudes, endLatitude, endLongitude);
       print('distance $distanceInMeters');
       if (distanceInMeters != null) {
         setState(() {
@@ -132,28 +148,15 @@ class _LocatingPageState extends State<LocatingPage> {
               alignment: Alignment.bottomRight,
               child: FloatingActionButton.extended(
                 heroTag: 'two',
-                onPressed: null,
+                onPressed: () {
+                  updateEndLocation();
+                },
                 label: Text('add location'),
                 icon: Icon(Icons.add_circle),
                 backgroundColor: Colors.green,
               ),
             ),
           ],
-        )
-
-        // FloatingActionButton.extended(
-        //   heroTag: 'button1',
-        //   onPressed: null,
-        //   label: Text('add location'),
-        //   icon: Icon(Icons.add_circle),
-        //   backgroundColor: Colors.green,
-        // ),
-        //   FloatingActionButton(
-        //   heroTag: 'button2',
-        //   onPressed: null,
-        //   child: Icon(Icons.add_circle),
-        //   backgroundColor: Colors.green,
-        // ),
-        );
+        ));
   }
 }
