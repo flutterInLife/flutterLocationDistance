@@ -58,7 +58,7 @@ class _LocatingPageState extends State<LocatingPage> {
     print('shortest distance is $shortestDistance');
   }
 
-  Container measureDistance() {
+  void measureDistance() {
     // startLatitude	double	Latitude of the start position
     // startLongitude	double	Longitude of the start position
     // endLatitude	double	Latitude of the destination position
@@ -77,19 +77,6 @@ class _LocatingPageState extends State<LocatingPage> {
     } catch (e) {
       print(e);
     }
-    return Container(
-      margin: EdgeInsets.all(1),
-      decoration: BoxDecoration(
-        color: Colors.amber,
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      height: 50,
-      // color: Colors.amber,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text('distace: $distanceInMeter'),
-      ),
-    );
   }
 
   @override
@@ -134,7 +121,19 @@ class _LocatingPageState extends State<LocatingPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: measureDistance(),
+                    child: Container(
+                      margin: EdgeInsets.all(1),
+                      decoration: BoxDecoration(
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      height: 50,
+                      // color: Colors.amber,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('distace: $distanceInMeter'),
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -169,6 +168,7 @@ class _LocatingPageState extends State<LocatingPage> {
               child: FloatingActionButton.extended(
                 heroTag: 'two',
                 onPressed: () {
+                  measureDistance();
                   updateEndLocation();
                 },
                 label: Text('add location'),
