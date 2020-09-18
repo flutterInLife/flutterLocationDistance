@@ -67,10 +67,12 @@ class _LocatingPageState extends State<LocatingPage> {
       double distanceInMeters =
           distanceBetween(latitudes, longitudes, endLatitude, endLongitude);
       print('distance $distanceInMeters');
+      setState(() {
+        distanceList.add(distanceInMeters);
+      });
       if (distanceInMeters != null) {
         setState(() {
           distanceInMeter = distanceInMeters;
-          distanceList.add(distanceInMeters);
         });
         print('distance list is $distanceList');
       }
@@ -168,8 +170,9 @@ class _LocatingPageState extends State<LocatingPage> {
               child: FloatingActionButton.extended(
                 heroTag: 'two',
                 onPressed: () {
-                  measureDistance();
                   updateEndLocation();
+
+                  measureDistance();
                 },
                 label: Text('add location'),
                 icon: Icon(Icons.add_circle),
