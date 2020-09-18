@@ -13,7 +13,12 @@ class LocatingPage extends StatefulWidget {
 }
 
 class _LocatingPageState extends State<LocatingPage> {
-  double latitudes, longitudes, distanceInMeter, endLatitude, endLongitude;
+  double latitudes,
+      longitudes,
+      distanceInMeter,
+      endLatitude,
+      endLongitude,
+      shortestDistance;
 
   List<double> distanceList = [];
 
@@ -45,7 +50,12 @@ class _LocatingPageState extends State<LocatingPage> {
   }
 
   void sortingDistance() {
-    null;
+    distanceList.sort();
+    print(distanceList);
+    setState(() {
+      shortestDistance = distanceList[0];
+    });
+    print('shortest distance is $shortestDistance');
   }
 
   Container measureDistance() {
@@ -125,6 +135,10 @@ class _LocatingPageState extends State<LocatingPage> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: measureDistance(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('nearest location is $shortestDistance'),
                   ),
                   Row(
                     children: [Text(distanceList.toString())],
