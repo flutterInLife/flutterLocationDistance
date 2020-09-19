@@ -57,7 +57,6 @@ class _LocatingPageState extends State<LocatingPage> {
     });
     print('shortest distance is $shortestDistance');
   }
-  //tring sth new
 
   void measureDistance() {
     // startLatitude	double	Latitude of the start position
