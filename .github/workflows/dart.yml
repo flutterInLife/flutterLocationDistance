@@ -11,8 +11,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    container:
-      image:  google/dart:latest
+#    container:
+#      image:  google/dart:latest
 
     steps:
       - uses: actions/checkout@v1
@@ -21,7 +21,7 @@ jobs:
           java-version: '12.x'
       - uses: subosito/flutter-action@v1
         with:
-           channel: 'stable'
+          channel: 'stable'
 #          flutter-version: '1.9.1+hotfix.6'
       - run: flutter doctor
       - run: flutter pub get
