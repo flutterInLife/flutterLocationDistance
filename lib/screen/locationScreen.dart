@@ -93,93 +93,93 @@ class _LocatingPageState extends State<LocatingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Distance between two location'),
-        ),
-        body: ListView(
-          scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.all(10.0),
-          children: <Widget>[
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      margin: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                        color: Colors.lightGreen,
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      height: 50,
-                      // color: Colors.lightGreen,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child:
-                            Text('longitude: $longitudes latitude:$latitudes'),
-                      ),
+      appBar: AppBar(
+        title: Text('Distance between two location'),
+      ),
+      body: ListView(
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.all(10.0),
+        children: <Widget>[
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    margin: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: Colors.lightGreen,
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    height: 50,
+                    // color: Colors.lightGreen,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('longitude: $longitudes latitude:$latitudes'),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      margin: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      height: 50,
-                      // color: Colors.amber,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('distace: $distanceInMeter'),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('nearest location is $shortestDistance'),
-                  ),
-                  Row(
-                    children: [Text(distanceList.toString())],
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-        floatingActionButton: Stack(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: 31),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: FloatingActionButton.extended(
-                  heroTag: 'one',
-                  onPressed: () {
-                    sortingDistance();
-                  },
-                  label: Text('search nearest'),
-                  icon: Icon(Icons.search),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    margin: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    height: 50,
+                    // color: Colors.amber,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('distace: $distanceInMeter'),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('nearest location is $shortestDistance'),
+                ),
+                Row(
+                  children: [Text(distanceList.toString())],
+                )
+              ],
             ),
-            Align(
-              alignment: Alignment.bottomRight,
+          ),
+        ],
+      ),
+      floatingActionButton: Stack(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(left: 31),
+            child: Align(
+              alignment: Alignment.bottomLeft,
               child: FloatingActionButton.extended(
-                heroTag: 'two',
+                heroTag: 'one',
                 onPressed: () {
-                  updateEndLocation();
-
-                  measureDistance();
+                  sortingDistance();
                 },
-                label: Text('add location'),
-                icon: Icon(Icons.add_circle),
-                backgroundColor: Colors.green,
+                label: Text('search nearest'),
+                icon: Icon(Icons.search),
               ),
             ),
-          ],
-        ));
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: FloatingActionButton.extended(
+              heroTag: 'two',
+              onPressed: () {
+                updateEndLocation();
+
+                measureDistance();
+              },
+              label: Text('add location'),
+              icon: Icon(Icons.add_circle),
+              backgroundColor: Colors.green,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
